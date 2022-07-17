@@ -22,10 +22,16 @@
                 
                 <tr>
                     <td>{{empleado[0]}}</td>
-                    <td>{{empleado[3]}}</td> 
+                    <td>
+                        {{empleado[3]}}
+                    </td> 
                     <td>{{empleado[1]}}</td>
                     <td>{{empleado[2]}}</td>
-                    <td>Editar |  borrar</td>
+                    <td>
+                        <a href="/edit/{{empleado[0]}}">Editar</a>
+                         |  
+                        <a href="/destroy/{{empleado[0]}}">Borrar</a>
+                        </td>
                 </tr>
             {% endfor %}
         </tbody>
