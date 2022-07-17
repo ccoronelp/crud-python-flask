@@ -14,20 +14,29 @@ app.config['MYSQL_DATABASE_DB']='carlos'
 app.config['MYSQL_DATABASE_PORT'] = 3306
 mysql.init_app(app)
 
+#####-----------------/
 @app.route('/')
 def index():
-    sql="INSERT INTO `usuario` (`id`, `nombre`, `correo`, `foto`) VALUES (NULL, 'Carlos', 'jocar@jocar.com', 'jocar.jpg')"
+    sql="SELECT * FROM `usuario`"
+
     conn=mysql.connect()
     cursor=conn.cursor()
     cursor.execute(sql)
+
+    #después de ejecutar el cursor pasamos un fetchall para guardar en empleados
+    empleados = cursor.fetchall()
+    #print(empleados)
     conn.commit()
 
-    return render_template('empleados/index.html')
+    return render_template('empleados/index.html',empleados=empleados)
 
+
+#####-----------------/
 @app.route('/create')
 def create():
     return render_template('empleados/create.html')
 
+#####-----------------/
 #Recibiendo datos mediaten post del formulario create
 @app.route('/store', methods=['POST'])
 def storage():
