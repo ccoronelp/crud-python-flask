@@ -41,6 +41,39 @@ def destroy(id):
 
     return redirect('/')
 
+#####-----------------/edit element
+@app.route('/edit/<int:id>')
+def edit(id):
+    conn=mysql.connect()
+    cursor=conn.cursor()   
+
+    cursor.execute("SELECT * FROM usuario WHERE id=%s",id);
+    empleados = cursor.fetchall()
+
+    conn.commit()
+#   print(empleados)
+    return render_template('empleados/edit.html',empleados=empleados)
+
+# recibiendo datos del formulario ubdate de edit.html
+@app.route('/update', methods=['POST'])
+def update():
+    _id = request.form['txtID']
+    _nombre = request.form['txtNombre']
+    _correo = request.form['correo']
+    _foto = request.files['foto']
+
+    sql = "UPDATE `usuario` SET `nombre`=%s, `correo`=%s WHERE id=%s"
+    datos = (_nombre,_correo,_id)
+
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute(sql,datos)
+    conn.commit()
+
+    return redirect('/')
+
+
 #####-----------------/
 @app.route('/create')
 def create():
