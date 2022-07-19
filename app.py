@@ -1,12 +1,19 @@
-from flask import Flask
-from flask import render_template,request,redirect
+from flask import Flask, flash
+from flask import render_template,request,redirect,url_for
 from flaskext.mysql import MySQL
+from flask import send_from_directory
+
 from datetime import datetime
 import os
 
 
+
 app = Flask(__name__)
+app.secret_key="cambiaestaclave"
+
+
 #conexión con base de datos
+
 mysql = MySQL()
 app.config['MYSQL_DATABASE_HOST']='localhost'
 app.config['MYSQL_DATABASE_USER']='carlos'
@@ -18,6 +25,11 @@ mysql.init_app(app)
 ####************ sistema operativo
 CARPETA = os.path.join('uploads')
 app.config['CARPETA'] = CARPETA
+
+#con esta función compartimos las fotos del directorio uploads con nuestra pp
+@app.route('/uploads/<nombreFoto>')
+def uploads(nombreFoto):
+    return send_from_directory(app.config['CARPETA'],nombreFoto)
 
 #####-----------------/
 @app.route('/')
@@ -114,6 +126,10 @@ def storage():
     _correo = request.form['correo']
     _foto = request.files['foto']
 
+    if _nombre == '' or _correo == '' or _foto=='':
+        flash('Recuerda llenar los datos de los campos')
+        return redirect(url_for('create'))
+
     now = datetime.now()
     tiempo = now.strftime("%Y%H%M%S")
 
@@ -127,7 +143,7 @@ def storage():
     cursor=conn.cursor()
     cursor.execute(sql,datos)
     conn.commit()
-    return render_template('empleados/index.html')
+    return redirect('/')
 
 if __name__=='__main__':
     app.run(debug=True)

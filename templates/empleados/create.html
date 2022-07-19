@@ -1,13 +1,44 @@
+{% include 'header.html' %}
+
+{% with messages = get_flashed_messages() %}
+
+{% if messages %}
+    <div class="alert alert-danger" role="alert">
+        {% for message in messages %}
+            {{message}}
+        {% endfor %}
+    </div>
+{% endif %}
+{% endwith %}
+
 <form method="post" action="/store" enctype="multipart/form-data">
-    nombre: 
-    <input type="text" name="txtNombre" id="txtNombre">
-    <br>
-    correo:
-    <input type="text" name="correo" id="correo">
-    <br>
-    foto:
-    <input type="file" name="foto" id="foto">
-    <br>
-    <input type="submit" value="Agregar">
+    
+    <div class="card">
+        <div class="card-header">
+            Datos del usuario
+        </div>
+        <div class="card-body">
+            <h5 class="card-title"></h5>
+            <p class="card-text">
+                <div class="form-group">
+                    <label for="my-input">Nombre:</label>
+                    <input id="txtNombre" class="form-control" type="text" name="txtNombre" >
+
+                    <label for="my-input">Correo:</label>
+                    <input id="txtNombre" class="form-control" type="text" name="correo" >
+                    
+                    <label for="my-input">Foto:</label>
+                    <input id="foto" class="form-control" type="file" name="foto" >
+                    <br>
+                    <input type="submit" class="form-control btn-primary" value="Registrar">
+                </div>
+
+            </p>
+        </div>
+    </div>
+    
+    
+
 
 </form>
+{% include 'footer.html' %}

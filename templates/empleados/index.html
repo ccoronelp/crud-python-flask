@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <title>Inicio</title>
-</head>
-<body>
+{% include 'header.html' %}
+<br>
+<a href=" {{url_for('create')}} " class="btn btn-success">Crear usuario</a>
+<br>
     <table class="table table-light">
         <thead class="thead-light">
             <tr>
@@ -23,18 +18,18 @@
                 <tr>
                     <td>{{empleado[0]}}</td>
                     <td>
-                        {{empleado[3]}}
+                        <img class="img-thumbnail" width="100" src="uploads/{{empleado[3]}}" alt="">
                     </td> 
                     <td>{{empleado[1]}}</td>
                     <td>{{empleado[2]}}</td>
                     <td>
-                        <a href="/edit/{{empleado[0]}}">Editar</a>
-                         |  
-                        <a href="/destroy/{{empleado[0]}}">Borrar</a>
+                        
+                        <a href="/edit/{{empleado[0]}}" class="btn btn-primary">Editar</a>
+                         | 
+                        <a onclick="return confirm('¿Está seguro de borrar?')" class="btn btn-secondary"  href="/destroy/{{empleado[0]}}">Borrar</a>
                         </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-</body>
-</html>
+{% include 'footer.html' %}
