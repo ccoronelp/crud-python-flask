@@ -75,15 +75,18 @@ def update():
 
     #Trabajamos la imagen
     now = datetime.now()
-    tiempo=now.strftime("%Y%M%D%S")
+    tiempo=now.strftime("%Y%H%M%S")
+    print (tiempo)
+
     if _foto.filename!='':
         nuevoNombreFoto = tiempo+_foto.filename
         _foto.save("uploads/"+nuevoNombreFoto)
-        cursor.execute("SELECT foto FROM `usuario` WHERE `id`=%s",id)
+
+        cursor.execute("SELECT `foto` FROM `usuario` WHERE `id`=%s",_id)
         fila=cursor.fetchall()
 
         os.remove(os.path.join(app.config['CARPETA'],fila[0][0]))
-        cursor.execute("UPDATE `usuario` SET `foto`=%s WHERE `id`=%s")
+        cursor.execute("UPDATE `usuario` SET `foto`=%s WHERE `id`=%s",(nuevoNombreFoto,_id))
         conn.commit()
 
     cursor.execute(sql,datos)
