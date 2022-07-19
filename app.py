@@ -40,6 +40,12 @@ def index():
 def destroy(id):
     conn=mysql.connect()
     cursor=conn.cursor()
+    
+    #eliminando las fotos
+    cursor.execute("SELECT `foto` FROM `usuario` WHERE `id`=%s",id)
+    fila=cursor.fetchall()
+
+    os.remove(os.path.join(app.config['CARPETA'],fila[0][0]))
 
     cursor.execute("DELETE FROM usuario WHERE id=%s",id)
     conn.commit()
